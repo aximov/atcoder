@@ -1,5 +1,10 @@
 {
   "files.associations": {
-    "iostream": "cpp"
-  }
+    "iostream": "cpp",
+    "map": "cpp",
+    "utility": "cpp",
+    "ostream": "cpp",
+    "vector": "cpp"
+  },
+  "clang.cxxflags": ["-std=c++14"]
 }
