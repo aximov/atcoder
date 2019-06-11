@@ -1,50 +1,33 @@
 #include <iostream>
+#include <vector>
 #include <algorithm>
-#include <set>
-#include <cstring>
 using namespace std;
 
-long long dp[1100];
-int N;
-
-long long dfs(int here, int n){
-  // メモを見る
-  if (dp[here] >= 0) {
-    return dp[here];
-  }
-
-  long long res = 0;
-
-  // 終了
-  if (here == n) {
-    return dp[here] = 1;
-  }
-
-  // 行き過ぎ
-  if (here > n) return dp[here] = 0;
-
-
-  // 次 1段
-  res += dfs(here + 1, n);
-
-  // 次 2段
-  res += dfs(here + 2, n);
-
-  return dp[here] = res%1000000007;
-}
+const long long mod = 1e9+7;
 
 int main() {
-  memset(dp, -1, sizeof(dp));
-  int M;
+  int N,M;
   cin >> N >> M;
 
+  vector<bool> oks(N + 1, true);
   int _a;
   for(int i = 0; i < M; ++i) {
     cin >> _a;
-    dp[_a] = 0;
+    oks[_a] = false;
   }
 
-  cout << dfs(0,N)%1000000007 << endl;
+  vector<long long> dp(N + 1, 0);
+  dp[0] = 1;
+  for(int now = 0; now < N; ++now) {
+    for (int next = now + 1; next <= min(N, now + 2); ++next) {
+      if(oks[next]){
+        dp[next] += dp[now];
+        dp[next] %= mod;
+      }
+    }
+  }
+
+  cout << dp[N] << endl;
 
   return 0;
 }
